@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isReactive, isReadonly, readonly } from "../reactive";
+import { isProxy, isReactive, isReadonly, readonly } from "../reactive";
 
 describe("readonly", () => {
   test("happy path", () => {
@@ -12,8 +12,8 @@ describe("readonly", () => {
       proxyObj.age++;
     } catch (error) {}
     expect(proxyObj.age).toBe(18);
-
     expect(isReadonly(proxyObj)).toBe(true);
+    expect(isProxy(proxyObj)).toBe(true)
   });
 
   test("巢状 readonly", () => {

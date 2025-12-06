@@ -23,6 +23,10 @@ export function isReadonly(raw: any) {
   return !!raw[REACTIVE_FLAGS.IS_READONLY]
 }
 
+export function isProxy(raw: any) {
+  return isReactive(raw) || isReadonly(raw)
+}
+
 export function shallowReadonly(raw: any) {
   return createActiveProxy(raw, shallowReadonlyHandler)
 }
