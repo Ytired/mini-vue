@@ -1,8 +1,6 @@
+import { isObject } from "../shared/isObject";
 import { track, trigger } from "./effect";
 import { reactive, readonly, REACTIVE_FLAGS } from "./reactive";
-
-const isObject = (value: unknown): value is Record<any, any> =>
-  value !== null && typeof value === "object";
 
 const get = createGetter();
 const set = createSetter();

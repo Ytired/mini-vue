@@ -1,5 +1,4 @@
 import { describe, expect, it, test, vitest } from "vitest";
-import { add } from "..";
 import { effect, stop } from "../effect";
 import { reactive } from "../reactive";
 
