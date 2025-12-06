@@ -10,7 +10,6 @@ describe("reactive", () => {
 
     proxyObj.age++;
     expect(proxyObj.age).toBe(19);
-
     expect(isReactive(proxyObj)).toBe(true);
   });
 
