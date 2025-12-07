@@ -3,7 +3,7 @@ import { isObject } from "../shared/isObject";
 import { isTrackIng, trackEffect, triggerEffects } from "./effect";
 import { reactive, REACTIVE_FLAGS } from "./reactive";
 
-class RefImpl<T = any> {
+export class RefImpl<T = any> {
   _value: T;
   private _rawValue: T;
   _deps: Set<any>;

@@ -6,7 +6,7 @@ type effect = () => void;
 let activeEffect: ReactiveEffct;
 let shouldTrack = false;
 
-class ReactiveEffct {
+export class ReactiveEffct {
   deps: Array<any> = []; //同一个effect内会触发多个track
   scheduler?: () => void;
   onStop?: () => void;
