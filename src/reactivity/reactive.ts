@@ -1,6 +1,7 @@
 import { mutableHandler, readonlyHandler, shallowReadonlyHandler } from "./baseHandler";
 
 export enum REACTIVE_FLAGS {
+  IS_REF = "is_ref",
   IS_REACTIVE = "is_reactive",
   IS_READONLY = "is_readonly"
 }

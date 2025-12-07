@@ -64,8 +64,7 @@ export function effect(fn: effect, options: any = {}) {
 // 收集依赖
 const targetMap = new Map();
 export function track(target: any, key: any) {
-  if (!activeEffect) return;
-  if (!shouldTrack) return;
+  if (!isTrackIng()) return;
   // target -> key -> effects
 
   let depsMap = targetMap.get(target);
@@ -80,10 +79,18 @@ export function track(target: any, key: any) {
     depsMap.set(key, dep);
   }
 
-  if (dep.has(activeEffect)) return;
+  trackEffect(dep);
+}
+
+export function trackEffect(dep: any) {
+  if (dep.has(activeEffect) || !isTrackIng()) return;
 
   dep.add(activeEffect);
   activeEffect.deps.push(dep); // 同一个effect函数中触发多个响应式依赖
+}
+
+export function isTrackIng() {
+  return activeEffect && shouldTrack;
 }
 
 // 触发依赖
@@ -94,6 +101,10 @@ export function trigger(target: any, key: any) {
   const dep = depsMap.get(key);
   if (!dep) return false;
 
+  triggerEffects(dep);
+}
+
+export function triggerEffects(dep: any) {
   dep.forEach((effect: ReactiveEffct) => {
     if (effect.scheduler) {
       effect.scheduler();
