@@ -1,6 +1,7 @@
 import { hasChanged } from "../shared/hasChanged";
+import { isObject } from "../shared/isObject";
 import { isTrackIng, trackEffect, triggerEffects } from "./effect";
-import { REACTIVE_FLAGS } from "./reactive";
+import { reactive, REACTIVE_FLAGS } from "./reactive";
 
 class RefImpl<T = any> {
   _value: T;
@@ -11,8 +12,8 @@ class RefImpl<T = any> {
   readonly [REACTIVE_FLAGS.IS_READONLY] = false;
 
   constructor(value: T, isShallow: boolean) {
-    this._value = value;
     this._rawValue = value;
+    this._value = toReactive(value)
     this._deps = new Set();
   }
 
@@ -22,10 +23,10 @@ class RefImpl<T = any> {
   }
 
   set value(newValue) {
-    if (!hasChanged(this._value, newValue)) return; // 相同值不应该触发
+    if (!hasChanged(this._rawValue, newValue)) return; // 相同值不应该触发
 
-    this._value = newValue;
     this._rawValue = newValue;
+    this._value = toReactive(newValue);
     triggerEffects(this._deps);
   }
 }
@@ -34,6 +35,10 @@ function trackRefValue(ref: any) {
   if (isTrackIng()) {
     trackEffect(ref._deps);
   }
+}
+
+function toReactive(value: any) {
+  return isObject(value) ? reactive(value) : value;
 }
 
 function createRef(rawValue: any, isShallow: boolean) {
