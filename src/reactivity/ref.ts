@@ -1,3 +1,4 @@
+import { hasChanged } from "../shared/hasChanged";
 import { trackEffect, triggerEffects } from "./effect";
 import { REACTIVE_FLAGS } from "./reactive";
 
@@ -21,7 +22,7 @@ class RefImpl<T = any> {
   }
 
   set value(newValue) {
-    if (Object.is(this._value, newValue)) return; // 相同值不应该触发
+    if (hasChanged(this._value, newValue)) return; // 相同值不应该触发
 
     this._value = newValue;
     this._rawValue = newValue;
