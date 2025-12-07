@@ -12,19 +12,19 @@ describe("computed", () => {
     expect(cValue.value).toBe(1);
   });
 
-  // it("pass oldValue to computed getter", () => {
-  //   const count = ref(0);
-  //   const oldValue = ref();
-  //   const curValue = computed((pre) => {
-  //     oldValue.value = pre;
-  //     return count.value;
-  //   });
-  //   expect(curValue.value).toBe(0);
-  //   expect(oldValue.value).toBe(undefined);
-  //   count.value++;
-  //   expect(curValue.value).toBe(1);
-  //   expect(oldValue.value).toBe(0);
-  // });
+  it("pass oldValue to computed getter", () => {
+    const count = ref(0);
+    const oldValue = ref();
+    const curValue = computed((pre) => {
+      oldValue.value = pre;
+      return count.value;
+    });
+    expect(curValue.value).toBe(0);
+    expect(oldValue.value).toBe(undefined);
+    count.value++;
+    expect(curValue.value).toBe(1);
+    expect(oldValue.value).toBe(0);
+  });
 
   it("should compute lazily", () => {
     const value = reactive({});

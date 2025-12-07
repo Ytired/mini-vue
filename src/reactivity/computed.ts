@@ -1,7 +1,7 @@
 import { ReactiveEffct } from "./effect";
 import type { RefImpl } from "./ref";
 
-type TGetter = () => void;
+type TGetter = (...args: any[]) => void;
 
 class ComputedRefImpl {
   private _getter: TGetter;
@@ -25,7 +25,7 @@ class ComputedRefImpl {
   get value() {
     if (this._dirty) {
       this._dirty = false;
-      this._value = this._effect.run();
+      this._value = this._effect.run(this._value);
     }
     return this._value;
   }

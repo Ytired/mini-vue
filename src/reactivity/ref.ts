@@ -45,7 +45,7 @@ function createRef(rawValue: any, isShallow: boolean) {
   return new RefImpl(rawValue, isShallow);
 }
 
-export function ref(value: any) {
+export function ref(value?: any) {
   return createRef(value, false);
 }
 

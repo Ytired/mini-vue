@@ -1,7 +1,7 @@
 import { Dep } from "./dep";
 import { extend } from "../shared/extend";
 
-type effect = () => void;
+type effect = (...args: any[]) => void;
 
 let activeEffect: ReactiveEffct;
 let shouldTrack = false;
@@ -17,16 +17,16 @@ export class ReactiveEffct {
     this._fn = fn;
   }
 
-  run() {
+  run(...args: any[]) {
     if (!this._active) {
       //如果stop了后直接返回
-      return this._fn();
+      return this._fn(...args);
     }
 
     activeEffect = this;
     shouldTrack = true;
 
-    const res = this._fn();
+    const res = this._fn(...args);
 
     shouldTrack = false;
     return res;
