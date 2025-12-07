@@ -1,6 +1,6 @@
 import { describe, expect, it, test, vitest } from "vitest";
 import { effect } from "../effect";
-import { ref } from "../ref";
+import { isRef, ref, unref } from "../ref";
 
 describe("ref", () => {
   test("happy path", () => {
@@ -39,5 +39,20 @@ describe("ref", () => {
     expect(dummy).toBe(1);
     a.value.count = 2;
     expect(dummy).toBe(2);
+  });
+
+  test("isRef", () => {
+    expect(isRef(ref(1))).toBe(true);
+    // expect(isRef(computed(() => 1))).toBe(true);
+
+    expect(isRef(0)).toBe(false);
+    expect(isRef(1)).toBe(false);
+    // 看起来像ref的对象不一定是ref
+    expect(isRef({ value: 0 })).toBe(false);
+  });
+
+  test("unref", () => {
+    expect(unref(1)).toBe(1);
+    expect(unref(ref(1))).toBe(1);
   });
 });

@@ -48,3 +48,15 @@ function createRef(rawValue: any, isShallow: boolean) {
 export function ref(value: any) {
   return createRef(value, false);
 }
+
+export function isRef(ref: any) {
+  if (!isObject(ref)) return false;
+
+  return ref[REACTIVE_FLAGS.IS_REF] || false;
+}
+
+export function unref(ref: any) {
+  if (!isObject(ref)) return ref;
+
+  return isRef(ref) ? ref.value : ref;
+}
