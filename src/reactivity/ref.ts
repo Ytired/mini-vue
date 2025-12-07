@@ -1,5 +1,5 @@
 import { hasChanged } from "../shared/hasChanged";
-import { trackEffect, triggerEffects } from "./effect";
+import { isTrackIng, trackEffect, triggerEffects } from "./effect";
 import { REACTIVE_FLAGS } from "./reactive";
 
 class RefImpl<T = any> {
@@ -17,7 +17,7 @@ class RefImpl<T = any> {
   }
 
   get value() {
-    trackEffect(this._deps);
+    trackRefValue(this);
     return this._value;
   }
 
@@ -27,6 +27,12 @@ class RefImpl<T = any> {
     this._value = newValue;
     this._rawValue = newValue;
     triggerEffects(this._deps);
+  }
+}
+
+function trackRefValue(ref: any) {
+  if (isTrackIng()) {
+    trackEffect(ref._deps);
   }
 }
 

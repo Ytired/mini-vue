@@ -83,7 +83,7 @@ export function track(target: any, key: any) {
 }
 
 export function trackEffect(dep: any) {
-  if (dep.has(activeEffect) || !isTrackIng()) return;
+  if (dep.has(activeEffect)) return;
 
   dep.add(activeEffect);
   activeEffect.deps.push(dep); // 同一个effect函数中触发多个响应式依赖
