@@ -1,3 +1,3 @@
 export const hasChanged = (value: any, newValue: any) => {
-  return Object.is(value, newValue);
+  return !Object.is(value, newValue);
 }
