@@ -22,7 +22,7 @@ class RefImpl<T = any> {
   }
 
   set value(newValue) {
-    if (hasChanged(this._value, newValue)) return; // 相同值不应该触发
+    if (!hasChanged(this._value, newValue)) return; // 相同值不应该触发
 
     this._value = newValue;
     this._rawValue = newValue;
