@@ -13,7 +13,7 @@ class RefImpl<T = any> {
 
   constructor(value: T, isShallow: boolean) {
     this._rawValue = value;
-    this._value = toReactive(value)
+    this._value = toReactive(value);
     this._deps = new Set();
   }
 
@@ -59,4 +59,19 @@ export function unref(ref: any) {
   if (!isObject(ref)) return ref;
 
   return isRef(ref) ? ref.value : ref;
+}
+
+export function proxyRefs(objectWithRefs: any) {
+  return new Proxy(objectWithRefs, {
+    get(target, key, receiver) {
+      return Reflect.get(unref(target), key, receiver);
+    },
+    set(target, key, newValue, receiver) {
+      if (isRef(target[key]) && !isRef(newValue)) {
+        return (target[key].value = newValue);
+      } else {
+        return Reflect.set(target, key, newValue, receiver);
+      }
+    },
+  });
 }

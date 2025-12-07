@@ -55,4 +55,11 @@ describe("ref", () => {
     expect(unref(1)).toBe(1);
     expect(unref(ref(1))).toBe(1);
   });
+
+    it('should NOT unwrap ref types nested inside arrays', () => {
+    const arr = ref([1, ref(3)]).value
+    expect(isRef(arr[0])).toBe(false)
+    expect(isRef(arr[1])).toBe(true)
+    expect(arr[1].value).toBe(3)
+  })
 });
